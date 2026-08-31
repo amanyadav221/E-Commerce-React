@@ -72,16 +72,15 @@ export default function Footer() {
 
   return (
     <div className='footer' id="footer">
-      <div className='fixed-bottom container footer-top' id="root"></div>
-      <div className="container-fluidfixed-bottom  mt-5 copyright py-4">
+      <div className="container-fluid mt-5 copyright py-4 bg-dark">
         <div className="container">
           <div className="row g-4 align-items-center">
             <div className="col-md-6 text-center text-md-start mb-md-0">
               <span className="text-white"><NavLink to="/" className="border-bottom text-white"><i
                 className="fs-2 fas fa-copyright text-light me-2"></i><span className="fs-4 fw-bolder">{setting?.siteName ? setting.siteName : import.meta.env.VITE_APP_SITE_NAME}</span></NavLink></span>
             </div>
-            <div className='d-flex justify-content-between text-light'>
-              <div className="footer-contact fs-6 py-2">
+            <div className='d-flex flex-wrap justify-content-between text-light'>
+              <div className="col-12 col-md-3 footer-contact fs-6 py-2 mb-4">
                 <span className="bi bi-geo-alt my-2  me-3" />
                 <Link className='text-light' to={import.meta.env.VITE_APP_MAP2} target='_blank'>
                   {setting?.addressOne ? setting.addressOne : import.meta.env.VITE_APP_ADDRESS1}
@@ -114,7 +113,7 @@ export default function Footer() {
 
 
 
-              <div className="col-lg-2 col-md-3 footer-links text-light">
+              <div className="col-12 col-md-3 footer-links text-light mb-4">
                 <h4 className='text-light fs-3'>Useful Links</h4>
                 <ul >
                   <li><NavLink className='text-light' to="/">Home</NavLink></li>
@@ -129,7 +128,7 @@ export default function Footer() {
               </div>
 
 
-              <div className="col-lg-2 col-md-3 footer-links">
+              <div className="col-12 col-md-3 footer-links mb-4">
                 <h4 className='text-light'>Our Services</h4>
                 <ul>
                   <li><Link className='text-light' to="/contact-us">Contact Us</Link></li>
@@ -141,7 +140,7 @@ export default function Footer() {
 
                 </ul>
               </div>
-              <div className="col-lg-4 col-md-12 footer-newsletter pt-0">
+              <div className="col-12 col-md-3 footer-newsletter pt-0 mb-4">
                 <h4 className='text-light'>Our Newsletter</h4>
                 <p className='text-light'>Subscribe to our newsletter and receive the latest news about our products and services!</p>
                 <form className="php-email-form my-0 py-0" onSubmit={postData}>

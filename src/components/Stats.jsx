@@ -23,7 +23,7 @@ export default function Stats() {
             <main className="main ">
                 <section id="stats" className="stats section  ">
 
-                    <div className="container d-flex">
+                    <div className="container d-flex flex-wrap justify-content-center">
                         <div className="col-lg-3 col-md-6 d-flex flex-column align-items-center px-3" >
                             <i className="bi bi-emoji-smile fs-1"></i>
                             <div className="stats-item">
