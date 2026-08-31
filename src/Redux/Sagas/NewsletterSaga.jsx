@@ -17,7 +17,7 @@ import {
 } from "./Services/NewsletterIndex";
 
 function* createNewsletterSaga(action) {
-    let res = yield call(createNewsletterIndex, "/newsletter/create", action.payload)
+    let res = yield call(createNewsletterIndex, "/public/newsletter/create", action.payload)
     yield put({
         type: CREATE_NEWSLETTER_RED,
         payload: res
