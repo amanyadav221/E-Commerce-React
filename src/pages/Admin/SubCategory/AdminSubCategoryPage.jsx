@@ -61,16 +61,20 @@ export default function AdminSubCategoryPage() {
                       <td>{val.name}</td>
 
                       <td>
-                        <Link
-                          to={`data:${val.fileType};base64,${val.file}`}
-                          target="_blank"
-                        >
-                          <img
-                            src={`data:${val.fileType};base64,${val.file}`}
-                            alt={val.name}
-                            height={50}
-                          />
-                        </Link>
+                        {val.fileType && val.file ? (
+                          <Link
+                            to={`data:${val.fileType};base64,${val.file}`}
+                            target="_blank"
+                          >
+                            <img
+                              src={`data:${val.fileType};base64,${val.file}`}
+                              alt={val.name}
+                              height={50}
+                            />
+                          </Link>
+                        ) : (
+                          <span className="badge bg-secondary">No Image</span>
+                        )}
                       </td>
 
                       <td>
