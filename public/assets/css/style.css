@@ -65,6 +65,33 @@
   opacity: 1;
 }
 
+/* Form Input Text & Dropdown Overrides */
+input.form-control, 
+select.form-control, 
+textarea.form-control,
+.form-control {
+    color: #212529 !important;
+    font-weight: 500 !important;
+    background-color: #ffffff !important;
+}
+
+input.form-control:focus, 
+select.form-control:focus, 
+textarea.form-control:focus,
+.form-control:focus {
+    color: #212529 !important;
+    border-color: #212529 !important;
+    box-shadow: 0 0 0 0.2rem rgba(33, 37, 41, 0.15) !important;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus,
+.dropdown-item.active,
+.dropdown-item:active {
+    background-color: #212529 !important;
+    color: #ffffff !important;
+}
+
 /*** Button Start ***/
 .btn {
     font-weight: 600;

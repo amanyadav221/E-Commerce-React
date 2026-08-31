@@ -9,17 +9,14 @@ export default function Footer() {
 
   const dispatch = useDispatch();
   let [emails, setEmail] = useState([])
-  // 🔹 Redux data
   const { setting, updateSuccess } = useSelector(state => state.SettingStateData);
   const newsletters = useSelector(
     state => state.NewsletterStateData.newsletters
   );
 
-  // Local state
   const [data, setData] = useState({ email: "" });
   const [msg, setMsg] = useState({ type: "", message: "" });
 
-  // Load data
   useEffect(() => {
     dispatch(getAllSetting());
     dispatch(getAllNewsLetter());
@@ -32,139 +29,142 @@ export default function Footer() {
         .map(n => n.email.toLowerCase().trim()))
     })()
   }, [newsletters])
-  //  Input handler
+
   function handleChange(e) {
     setData({ email: e.target.value });
   }
 
-  //  Submit handler
   function postData(e) {
     e.preventDefault();
-
     const inputEmail = data.email.toLowerCase().trim();
 
     if (!inputEmail) {
       toast.error("Email is required!");
-      console.log(inputEmail)
       return;
     }
-    console.log(emails, inputEmail)
+
     if (emails.includes(inputEmail)) {
-      toast.error("Email already Registered!!!");
+      toast.error("Email already Registered!");
       setMsg({
         type: "error",
-        message: "Email already Registered!!!"
+        message: "Email already Registered!"
       });
       return
     }
 
     dispatch(createNewsLetter({ email: inputEmail }));
-
-    toast.success("Thanks for subscribing our Newsletter Service!!!");
+    toast.success("Thanks for subscribing to our Newsletter!");
     setMsg({
       type: "success",
-      message: "Thanks for subscribing our Newsletter Service!!!"
+      message: "Thanks for subscribing to our Newsletter!"
     });
-
     setData({ email: "" })
-
   }
 
+  const formatExternalUrl = (url, fallback) => {
+    if (!url) return fallback;
+    if (url.startsWith('http://') || url.startsWith('https://')) return url;
+    return `https://${url}`;
+  }
+
+  const phone = setting?.phone ? setting.phone : (import.meta.env.VITE_APP_PHONE || "8948726393");
+  const whatsapp = setting?.whatsapp ? setting.whatsapp : (import.meta.env.VITE_APP_WHATSAPP || "8948726393");
+
   return (
-    <div className='footer' id="footer">
-      <div className="container-fluid mt-5 copyright py-4 bg-dark">
-        <div className="container">
-          <div className="row g-4 align-items-center">
-            <div className="col-md-6 text-center text-md-start mb-md-0">
-              <span className="text-white"><NavLink to="/" className="border-bottom text-white"><i
-                className="fs-2 fas fa-copyright text-light me-2"></i><span className="fs-4 fw-bolder">{setting?.siteName ? setting.siteName : import.meta.env.VITE_APP_SITE_NAME}</span></NavLink></span>
-            </div>
-            <div className='d-flex flex-wrap justify-content-between text-light'>
-              <div className="col-12 col-md-3 footer-contact fs-6 py-2 mb-4">
-                <span className="bi bi-geo-alt my-2  me-3" />
-                <Link className='text-light' to={import.meta.env.VITE_APP_MAP2} target='_blank'>
-                  {setting?.addressOne ? setting.addressOne : import.meta.env.VITE_APP_ADDRESS1}
-                  <br />
-                  {setting?.addressTwo ? setting.addressTwo : import.meta.env.VITE_APP_ADDRESS1}
-                </Link>
-                <p className="mt-2">
-                  <strong className='bi bi-phone text-light  me-3' />
-                  <Link className='text-light' to={`tel:${setting?.phone ? setting.phone : import.meta.env.VITE_APP_PHONE}`}>
-                    {import.meta.env.VITE_APP_PHONE}
-                  </Link>
-                </p>
-                <p>
-                  <strong className='bi bi-envelope text-light me-3' />
-                  <Link className='text-light' to={`mailto:${import.meta.env.VITE_APP_EMAIL}`}>
-                    {setting?.email ? setting.email : import.meta.env.VITE_APP_EMAIL}
-                  </Link>
-                </p>
-                <p><strong className='bi bi-whatsapp me-3'></strong>
-                  <Link className='text-light' to={`https/wa.me/${import.meta.env.VITE_APP_WHATSAPP}`}>{setting?.whatsapp ? setting.whatsapp : import.meta.env.VITE_APP_WHATSAPP}
-                  </Link>
-                </p>
-                <div className="social-links d-flex mt-5">
-                  <Link className='text-light border-light' to={setting?.gitHub ? setting.gitHub : import.meta.env.VITE_APP_GITHUB}><i className="bi bi-github"></i></Link>
-                  <Link className='text-light border-light' to={setting?.instagram ? setting.instagram : import.meta.env.VITE_APP_INSTAGRAM}><i className="bi bi-instagram"></i></Link>
-                  <Link className='text-light border-light' to={setting?.linkedIn ? setting.linkedIn : import.meta.env.VITE_APP_LINKEDIN}><i className="bi bi-linkedin"></i></Link>
-                </div>
+    <footer className="footer bg-dark text-light mt-5 pt-5 pb-4 border-top border-secondary" id="footer">
+      <div className="container">
+        <div className="row gy-4 text-light">
+          
+          {/* Column 1: Brand & Contact Info */}
+          <div className="col-12 col-md-6 col-lg-3">
+            <NavLink to="/" className="text-white text-decoration-none d-inline-block mb-3">
+              <i className="fs-2 fas fa-shopping-cart text-light me-2"></i>
+              <span className="fs-4 fw-bolder text-white">{setting?.siteName ? setting.siteName : (import.meta.env.VITE_APP_SITE_NAME || "E-Mart Shoping")}</span>
+            </NavLink>
+            <div className="footer-contact fs-6">
+              <p className="mb-2">
+                <i className="bi bi-geo-alt me-2 text-light fs-5" />
+                <a className='text-light text-decoration-none' href={formatExternalUrl(setting?.mapOne, "https://maps.google.com")} target='_blank' rel="noopener noreferrer">
+                  {setting?.addressOne ? setting.addressOne : (import.meta.env.VITE_APP_ADDRESS1 || "D1-244 Sultanpuri")}
+                  {setting?.addressTwo ? `, ${setting.addressTwo}` : ""}
+                </a>
+              </p>
+              <p className="mb-2">
+                <i className='bi bi-phone me-2 text-light fs-5' />
+                <a className='text-light text-decoration-none' href={`tel:${phone}`}>
+                  +91 {phone}
+                </a>
+              </p>
+              <p className="mb-2">
+                <i className='bi bi-envelope me-2 text-light fs-5' />
+                <a className='text-light text-decoration-none' href={`mailto:${setting?.email ? setting.email : (import.meta.env.VITE_APP_EMAIL || "yadavaman6940@gmail.com")}`}>
+                  {setting?.email ? setting.email : (import.meta.env.VITE_APP_EMAIL || "yadavaman6940@gmail.com")}
+                </a>
+              </p>
+              <p className="mb-3">
+                <i className='bi bi-whatsapp me-2 text-success fs-5'></i>
+                <a className='text-light text-decoration-none' href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`} target='_blank' rel="noopener noreferrer">
+                  +91 {whatsapp}
+                </a>
+              </p>
+              <div className="social-links d-flex gap-3 mt-3 fs-5">
+                <a className='text-light' href={formatExternalUrl(setting?.gitHub, "https://github.com")} target="_blank" rel="noopener noreferrer"><i className="bi bi-github"></i></a>
+                <a className='text-light' href={formatExternalUrl(setting?.instagram, "https://instagram.com")} target="_blank" rel="noopener noreferrer"><i className="bi bi-instagram"></i></a>
+                <a className='text-light' href={formatExternalUrl(setting?.linkedIn, "https://linkedin.com")} target="_blank" rel="noopener noreferrer"><i className="bi bi-linkedin"></i></a>
               </div>
-
-
-
-
-              <div className="col-12 col-md-3 footer-links text-light mb-4">
-                <h4 className='text-light fs-3'>Useful Links</h4>
-                <ul >
-                  <li><NavLink className='text-light' to="/">Home</NavLink></li>
-                  <li><NavLink className='text-light' to="/about">About us</NavLink></li>
-                  <li><NavLink className='text-light' to="/shop">Shop</NavLink></li>
-                  <li><NavLink className='text-light' to="/features">Features</NavLink></li>
-                  <li><NavLink className='text-light' to="/services">Services</NavLink></li>
-                  <li><NavLink className='text-light' to="/faq ">Faq</NavLink></li>
-
-
-                </ul>
-              </div>
-
-
-              <div className="col-12 col-md-3 footer-links mb-4">
-                <h4 className='text-light'>Our Services</h4>
-                <ul>
-                  <li><Link className='text-light' to="/contact-us">Contact Us</Link></li>
-                  <li><Link className='text-light' to="/testimonials">Testimonials</Link></li>
-                  <li><NavLink className='text-light' to="#">Privacy policy</NavLink></li>
-                  <li><NavLink className='text-light' to="#">Terms of Condition</NavLink></li>
-                  <li><NavLink className='text-light' to="#">Refund Policy</NavLink></li>
-                  <li><NavLink className='text-light' to="#">Data Policy</NavLink></li>
-
-                </ul>
-              </div>
-              <div className="col-12 col-md-3 footer-newsletter pt-0 mb-4">
-                <h4 className='text-light'>Our Newsletter</h4>
-                <p className='text-light'>Subscribe to our newsletter and receive the latest news about our products and services!</p>
-                <form className="php-email-form my-0 py-0" onSubmit={postData}>
-
-                  <div className="newsletter-form">
-                    <input type="email" name="email" value={data.email} onChange={(e) => handleChange(e)} />
-                    <input type="submit" value="Subscribe" /></div>
-
-                </form>
-                <div className='fs-4'>{msg.type ? <p className={msg.type === "error" ? 'text-danger' : 'text-success'}>{msg.message}</p> : null}</div>
-              </div>
-
-              <ToastContainer />
             </div>
           </div>
-          <div className="mx-auto col-md-12 h5 text-center text-white mt-4 fw-bold">
-            Designed By <span className='fs-4 text-warning'>Aman Yadav</span>
+
+          {/* Column 2: Useful Links */}
+          <div className="col-12 col-md-6 col-lg-3 footer-links">
+            <h4 className='text-white mb-3 fs-5 border-bottom border-secondary pb-2 d-inline-block'>Useful Links</h4>
+            <ul className="list-unstyled">
+              <li className="mb-2"><NavLink className='text-light text-decoration-none' to="/">Home</NavLink></li>
+              <li className="mb-2"><NavLink className='text-light text-decoration-none' to="/about">About Us</NavLink></li>
+              <li className="mb-2"><NavLink className='text-light text-decoration-none' to="/shop-page">Shop</NavLink></li>
+              <li className="mb-2"><NavLink className='text-light text-decoration-none' to="/features">Features</NavLink></li>
+              <li className="mb-2"><NavLink className='text-light text-decoration-none' to="/product">Products</NavLink></li>
+              <li className="mb-2"><NavLink className='text-light text-decoration-none' to="/faq">FAQ</NavLink></li>
+            </ul>
           </div>
 
-          {/* Copyright End  */}
-          {/* Back to Top  */}
-          <a href="#" className="btn btn-dark btn-lg-square back-to-top"><i className="fa fa-arrow-up"></i></a>
+          {/* Column 3: Our Services */}
+          <div className="col-12 col-md-6 col-lg-3 footer-links">
+            <h4 className='text-white mb-3 fs-5 border-bottom border-secondary pb-2 d-inline-block'>Our Services</h4>
+            <ul className="list-unstyled">
+              <li className="mb-2"><Link className='text-light text-decoration-none' to="/contact-us">Contact Us</Link></li>
+              <li className="mb-2"><Link className='text-light text-decoration-none' to="/testimonials">Testimonials</Link></li>
+              <li className="mb-2"><NavLink className='text-light text-decoration-none' to="#">Privacy Policy</NavLink></li>
+              <li className="mb-2"><NavLink className='text-light text-decoration-none' to="#">Terms & Conditions</NavLink></li>
+              <li className="mb-2"><NavLink className='text-light text-decoration-none' to="#">Refund Policy</NavLink></li>
+            </ul>
+          </div>
+
+          {/* Column 4: Newsletter */}
+          <div className="col-12 col-md-6 col-lg-3 footer-newsletter">
+            <h4 className='text-white mb-3 fs-5 border-bottom border-secondary pb-2 d-inline-block'>Our Newsletter</h4>
+            <p className='text-light small mb-3'>Subscribe to our newsletter and receive the latest news about our products!</p>
+            <form onSubmit={postData}>
+              <div className="input-group mb-3">
+                <input type="email" className="form-control" placeholder="Your Email" value={data.email} onChange={handleChange} required />
+                <button className="btn btn-secondary fw-bold" type="submit">Subscribe</button>
+              </div>
+            </form>
+            {msg.type ? <p className={msg.type === "error" ? 'text-danger small' : 'text-success small'}>{msg.message}</p> : null}
+          </div>
+
         </div>
+
+        <hr className="my-4 border-secondary" />
+
+        <div className="row align-items-center">
+          <div className="col-12 text-center text-white small">
+            Designed By <span className='fs-5 text-white fw-bold'>Aman Yadav</span>
+          </div>
+        </div>
+
+        <ToastContainer />
       </div>
-    </div>
+    </footer>
   )
 }
