@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
@@ -20,22 +19,24 @@ export default function NavBar() {
   }, [dispatch, updateSuccess]);
 
   useEffect(() => {
-    (() => {
-      setSetting(setting)
-    })()
+    setSetting(setting)
   }, [setting, updateSuccess])
+
   function handleLogout() {
     dispatch(logout());
     navigate("/login")
   }
+
   const closeMenu = () => {
     if (collapseRef.current?.classList.contains("show")) {
       collapseRef.current.classList.remove("show");
     }
   }
+
   useEffect(() => {
     closeMenu();
   }, [location.pathname]);
+
   useEffect(() => {
     const handleClickOutside = e => {
       if (collapseRef.current && !collapseRef.current.contains(e.target)) {
@@ -46,15 +47,15 @@ export default function NavBar() {
     return () => document.removeEventListener("click", handleClickOutside);
   }, [])
 
-
   const navClass = ({ isActive }) =>
     isActive
-      ? "nav-link fw-semibold text-warning"
-      : "nav-link text-white"
+      ? "nav-link fw-bold text-white text-decoration-underline"
+      : "nav-link text-light opacity-75"
+
   return (
-    <header className="container-fluid p-0 sticky-top bg-dark">
-  <div className="row gx-0 px-3 px-lg-5 align-items-center">
-    <nav className="navbar navbar-expand-lg navbar-dark w-100">
+    <header className="container-fluid p-0 sticky-top bg-dark border-bottom border-secondary">
+      <div className="row gx-0 px-3 px-lg-5 align-items-center">
+        <nav className="navbar navbar-expand-lg navbar-dark w-100 py-3">
 
           {/* LOGO */}
           <Link to="/" className="navbar-brand fw-bold fs-3 text-white">
@@ -69,10 +70,8 @@ export default function NavBar() {
           {/* COLLAPSE */}
           <div ref={collapseRef} className="collapse navbar-collapse" id="navbarCollapse">
 
-
             {/* LINKS */}
             <ul className="navbar-nav mx-auto mb-2 mb-lg-0 fw-semibold">
-
               <li className="nav-item mx-2"><NavLink to="/" className={navClass}>Home</NavLink></li>
               <li className="nav-item mx-2"><NavLink to="/shop-page" className={navClass}>Shop</NavLink></li>
               <li className="nav-item mx-2"><NavLink to="/about" className={navClass}>About</NavLink></li>
@@ -88,24 +87,24 @@ export default function NavBar() {
 
               {!jwt && (
                 <>
-                  <div className="btn-group">
-                    <button className="btn"><NavLink className={`${navClass} text-light`} to="/login">Login</NavLink></button>
-                    <button className="btn"><NavLink className={`${navClass} text-light`} to="/sign-up">Signup</NavLink></button>
+                  <div className="btn-group gap-2">
+                    <NavLink className="btn btn-outline-light btn-sm fw-semibold" to="/login">Login</NavLink>
+                    <NavLink className="btn btn-light text-dark btn-sm fw-semibold" to="/sign-up">Signup</NavLink>
                   </div>
                 </>
               )}
+
               {jwt && role === "USER" && (
                 <>
                   <div className="dropdown">
-                    <NavLink to="#" className="dropdown-toggle text-white" data-bs-toggle="dropdown">
+                    <NavLink to="#" className="dropdown-toggle text-white fw-semibold text-decoration-none" data-bs-toggle="dropdown">
                       <i className="fa fa-user me-2"></i> {fullName}
                     </NavLink>
-                    <ul className="dropdown-menu dropdown-menu-end bg-light">
-                      <li><Link to="/profile" className="dropdown-item">My Profile</Link></li>
-                      <li><Link to="/profile?option=4" className="dropdown-item">Wishlist</Link></li>
-                      <li><Link to="/profile?option=6" className="dropdown-item">My Cart</Link></li>
-                      {/* <li><Link to="/account-setting" className="dropdown-item">Account Settings</Link></li> */}
-                      <li><Link to="/" onClick={handleLogout} className="dropdown-item">Logout</Link></li>
+                    <ul className="dropdown-menu dropdown-menu-end bg-dark border-secondary shadow">
+                      <li><Link to="/profile" className="dropdown-item text-white">My Profile</Link></li>
+                      <li><Link to="/profile?option=4" className="dropdown-item text-white">Wishlist</Link></li>
+                      <li><Link to="/profile?option=6" className="dropdown-item text-white">My Cart</Link></li>
+                      <li><Link to="/" onClick={handleLogout} className="dropdown-item text-white">Logout</Link></li>
                     </ul>
                   </div>
                 </>
@@ -115,13 +114,13 @@ export default function NavBar() {
                 <>
                   {/* ADMIN */}
                   <div className="dropdown">
-                    <Link to="#" className="dropdown-toggle text-white" data-bs-toggle="dropdown">
+                    <Link to="#" className="dropdown-toggle text-white fw-semibold text-decoration-none" data-bs-toggle="dropdown">
                       <i className="fa fa-user me-2"></i> {fullName}
                     </Link>
-                    <ul className="dropdown-menu dropdown-menu-end">
-                      <li><Link to="/admin" className="dropdown-item">Admin Dashboard</Link></li>
-                      <li><Link to="/admin/my-account" className="dropdown-item">My Account</Link></li>
-                      <li><Link onClick={handleLogout} className="dropdown-item">Logout</Link></li>
+                    <ul className="dropdown-menu dropdown-menu-end bg-dark border-secondary shadow">
+                      <li><Link to="/admin" className="dropdown-item text-white">Admin Dashboard</Link></li>
+                      <li><Link to="/admin/my-account" className="dropdown-item text-white">My Account</Link></li>
+                      <li><Link onClick={handleLogout} className="dropdown-item text-white">Logout</Link></li>
                     </ul>
                   </div>
                 </>
