@@ -55,6 +55,14 @@
   min-height: 100vh;
   overflow-x: hidden;
 }
+
+.list-group-item.active,
+.list-group-item.active:hover,
+.list-group-item.active:focus {
+  background-color: #212529 !important;
+  border-color: #343a40 !important;
+  color: #ffffff !important;
+}
 /*** Spinner Start ***/
 /*** Spinner ***/
 #spinner {
