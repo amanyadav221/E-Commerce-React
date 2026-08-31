@@ -1,5 +1,5 @@
 import axios from "axios";
-const api='http://localhost:8080/admin/faq'
+const api = import.meta.env.VITE_APP_BACKEND_SERVER_FAQ_ADMIN || 'https://e-commerce-java-springboot.onrender.com/admin/faq'
 
 const FaqAdminAPI = axios.create({
   baseURL: api

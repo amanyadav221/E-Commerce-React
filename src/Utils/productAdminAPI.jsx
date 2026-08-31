@@ -1,5 +1,5 @@
 import axios from "axios";
-const api = 'http://localhost:8080/admin/product'
+const api = import.meta.env.VITE_APP_BACKEND_SERVER_PRODUCT_ADMIN || 'https://e-commerce-java-springboot.onrender.com/admin/product'
 
 const productAdminAPI = axios.create({
   baseURL: api
