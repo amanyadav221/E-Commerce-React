@@ -1,5 +1,5 @@
 import axios from "axios"
-const PublicApi = import.meta.env.VITE_APP_BACKEND_SERVER_MAIN_CAT_PUBLIC
+const PublicApi = import.meta.env.VITE_APP_BACKEND_SERVER_MAIN_CAT_PUBLIC || 'https://e-commerce-java-springboot.onrender.com/public/main-cat'
 import MainCatAdminAPI from "../../../Utils/MainCatAdminAPI"
 
 export async function createRecord(collection, payload) {

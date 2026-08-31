@@ -1,5 +1,5 @@
 import axios from "axios"
-const PublicApi = import.meta.env.VITE_APP_BACKEND_SERVER_SETTING_PUBLIC
+const PublicApi = import.meta.env.VITE_APP_BACKEND_SERVER_SETTING_PUBLIC || 'https://e-commerce-java-springboot.onrender.com/public/setting'
 import adminAPI from "../../../Utils/AdminAPI";
 export async function createRecord(collection, payload) {
     try {

@@ -1,6 +1,6 @@
 import axios from "axios"
 import BrandAdminAPI from "../../../Utils/BrandAdminAPI";
-const PublicApi=import.meta.env.VITE_APP_BACKEND_SERVER_BRAND_PUBLIC
+const PublicApi = import.meta.env.VITE_APP_BACKEND_SERVER_BRAND_PUBLIC || 'https://e-commerce-java-springboot.onrender.com/public/brand'
 export async function createRecord(collection, payload) {
     try {
         let res = await BrandAdminAPI.post(`${collection}`, payload,

@@ -1,7 +1,7 @@
 import axios from "axios";
 import adminAPI from "../../../Utils/AdminAPI";
 import api from "../../../Utils/ApiInstance";
-const PublicApi = import.meta.env.VITE_APP_BACKEND_SERVER_SECURITY_PUBLIC
+const PublicApi = import.meta.env.VITE_APP_BACKEND_SERVER_SECURITY_PUBLIC || 'https://e-commerce-java-springboot.onrender.com/public'
 export async function getMyCartIndex(collection) {
     try {
         let res = await api.get(`${collection}`)

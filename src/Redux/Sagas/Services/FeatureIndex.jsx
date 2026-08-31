@@ -1,5 +1,5 @@
 import axios from "axios"
-const PublicApi = import.meta.env.VITE_APP_BACKEND_SERVER_FEATURE_PUBLIC
+const PublicApi = import.meta.env.VITE_APP_BACKEND_SERVER_FEATURE_PUBLIC || 'https://e-commerce-java-springboot.onrender.com/public/feature'
 import FeatureAdminAPI from "../../../Utils/FeatureAdminAPI";
 export async function createRecord(collection, payload) {
     try {

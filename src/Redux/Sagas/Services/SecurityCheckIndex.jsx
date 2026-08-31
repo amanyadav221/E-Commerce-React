@@ -1,6 +1,6 @@
 import axios from "axios";
 import api from "../../../Utils/ApiInstance";
-const PublicApi = import.meta.env.VITE_APP_BACKEND_SERVER_SECURITY_PUBLIC
+const PublicApi = import.meta.env.VITE_APP_BACKEND_SERVER_SECURITY_PUBLIC || 'https://e-commerce-java-springboot.onrender.com/public'
 import adminAPI from "../../../Utils/AdminAPI";
 
 export async function registerUser(collection, payload) {
