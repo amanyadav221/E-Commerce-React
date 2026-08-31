@@ -42,7 +42,7 @@ export default function SettingReducers(state = initialState, action) {
           ...state.setting,
           ...action.payload, // merge updated fields
         },
-        updateSuccess: !updateSuccess,
+        updateSuccess: !state.updateSuccess,
         error: null,
       }
 

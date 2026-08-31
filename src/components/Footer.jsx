@@ -156,8 +156,8 @@ export default function Footer() {
               <ToastContainer />
             </div>
           </div>
-          <div className="mx-5 col-md-6 h5 text-center text-md-end text-white">
-            Designed By <span className='fs-4'></span>
+          <div className="mx-auto col-md-12 h5 text-center text-white mt-4 fw-bold">
+            Designed By <span className='fs-4 text-warning'>Aman Yadav</span>
           </div>
 
           {/* Copyright End  */}

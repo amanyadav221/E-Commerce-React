@@ -19,15 +19,33 @@
 
 .back-to-top {
     position: fixed;
-    right: 30px;
-    bottom: 30px;
+    right: 25px;
+    bottom: 25px;
     display: flex;
-    width: 45px;
-    height: 45px;
+    width: 48px;
+    height: 48px;
     align-items: center;
     justify-content: center;
-    transition: 0.5s;
-    z-index: 99;
+    transition: 0.3s;
+    z-index: 999;
+    background-color: #212529 !important;
+    color: #ffffff !important;
+    border: 1px solid #495057 !important;
+    border-radius: 50% !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.back-to-top:hover {
+    background-color: #343a40 !important;
+    color: #ffffff !important;
+}
+
+.list-group-item.active-dark,
+.list-group-item.active-dark:hover,
+.list-group-item.active-dark:focus {
+    background-color: #212529 !important;
+    color: #ffffff !important;
+    border-color: #212529 !important;
 }
 
 /*** Button Start ***/
