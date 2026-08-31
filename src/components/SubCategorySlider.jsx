@@ -53,7 +53,7 @@ export default function SubCategorySlider() {
                       <Link to={`/shop?sc=${pic.name}`}>
                         <img
                           className='m-1'
-                          src={pic.fileType && pic.file ? `data:${pic.fileType};base64,${pic.file}` : "https://placehold.co/200x80?text=SubCategory"}
+                          src={`data:${pic.fileType};base64,${pic.file}`}
                           alt={pic.name}
                           height={120}
                           width={150}
