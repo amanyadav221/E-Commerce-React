@@ -65,8 +65,8 @@ export default function Crousel() {
                         {slide.subtitle}
                       </p>
                       <div className="d-flex mt-3">
-                        <Link to="/shop-page" className="btn btn-warning btn-lg fw-bold text-dark px-4 shadow">
-                          Shop Now <i className="bi bi-arrow-right ms-2"></i>
+                        <Link to="/shop-page" className="btn btn-dark btn-lg fw-bold text-white border-secondary px-4 shadow">
+                          Shop Now <i className="bi bi-arrow-right ms-2 text-white"></i>
                         </Link>
                       </div>
                     </div>

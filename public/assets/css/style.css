@@ -48,6 +48,23 @@
     border-color: #212529 !important;
 }
 
+/* Swiper Navigation & Pagination Overrides */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #ffffff !important;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+}
+
+.swiper-pagination-bullet {
+  background: #ffffff !important;
+  opacity: 0.6;
+}
+
+.swiper-pagination-bullet-active {
+  background: #ffffff !important;
+  opacity: 1;
+}
+
 /*** Button Start ***/
 .btn {
     font-weight: 600;
