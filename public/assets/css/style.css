@@ -1,5 +1,41 @@
-.mainBody{
+:root {
+  --bs-primary: #0d6efd !important;
+  --bs-primary-rgb: 13, 110, 253 !important;
+  --bs-secondary: #0b5ed7 !important;
+  --bs-secondary-rgb: 11, 94, 215 !important;
+  --bs-warning: #0d6efd !important;
+  --bs-warning-rgb: 13, 110, 253 !important;
+  --accent-color: #0d6efd !important;
+  --primary-color: #0d6efd !important;
+}
 
+.text-warning, .text-primary {
+  color: #0d6efd !important;
+}
+
+.btn-warning, .btn-primary {
+  background-color: #0d6efd !important;
+  border-color: #0d6efd !important;
+  color: #ffffff !important;
+}
+
+.btn-warning:hover, .btn-primary:hover {
+  background-color: #0b5ed7 !important;
+  border-color: #0a58ca !important;
+  color: #ffffff !important;
+}
+
+.border-warning, .border-primary {
+  border-color: #0d6efd !important;
+}
+
+.bg-warning, .bg-primary {
+  background-color: #0d6efd !important;
+}
+
+.mainBody {
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 /*** Spinner Start ***/
 /*** Spinner ***/
