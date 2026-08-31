@@ -29,7 +29,7 @@ export default function Stats() {
                 <section id="stats" className="stats section py-4">
                     <div className="container d-flex flex-wrap justify-content-center">
                         <div className="col-lg-3 col-md-6 d-flex flex-column align-items-center px-3 mb-3">
-                            <i className="bi bi-emoji-smile fs-1 text-danger"></i>
+                            <i className="bi bi-emoji-smile fs-1 text-dark"></i>
                             <div className="stats-item text-center">
                                 <span className="fs-2 fw-bold">
                                     <Countup key={`cust-${customerCount}`} end={customerCount} duration={2.5} />+
@@ -39,7 +39,7 @@ export default function Stats() {
                         </div>
 
                         <div className="col-lg-3 col-md-6 d-flex flex-column align-items-center px-3 mb-3">
-                            <i className="bi bi-card-list fs-1 text-danger"></i>
+                            <i className="bi bi-card-list fs-1 text-dark"></i>
                             <div className="stats-item text-center">
                                 <span className="fs-2 fw-bold">
                                     <Countup key={`prod-${productsCount}`} end={productsCount} duration={2.5} />+
@@ -49,7 +49,7 @@ export default function Stats() {
                         </div>
 
                         <div className="col-lg-3 col-md-6 d-flex flex-column align-items-center px-3 mb-3">
-                            <i className="bi bi-shield-check fs-1 text-danger"></i>
+                            <i className="bi bi-shield-check fs-1 text-dark"></i>
                             <div className="stats-item text-center">
                                 <span className="fs-2 fw-bold">
                                     <Countup key={`brand-${brandsCount}`} end={brandsCount} duration={2.5} />+
@@ -59,7 +59,7 @@ export default function Stats() {
                         </div>
 
                         <div className="col-lg-3 col-md-6 d-flex flex-column align-items-center px-3 mb-3">
-                            <i className="bi bi-arrow-counterclockwise fs-1 text-danger"></i>
+                            <i className="bi bi-arrow-counterclockwise fs-1 text-dark"></i>
                             <div className="stats-item text-center">
                                 <span className="fs-2 fw-bold">
                                     <Countup key={`ref-${refundCount}`} end={refundCount} duration={2.5} /> Days
