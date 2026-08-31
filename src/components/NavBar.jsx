@@ -49,7 +49,7 @@ export default function NavBar() {
 
   const navClass = ({ isActive }) =>
     isActive
-      ? "nav-link fw-bold text-white text-decoration-underline"
+      ? "nav-link fw-bold text-white opacity-100"
       : "nav-link text-light opacity-75"
 
   return (
