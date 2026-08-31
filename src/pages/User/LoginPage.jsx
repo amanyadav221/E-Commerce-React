@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { LoginUser } from '../../Redux/ActionCreators/SecurityCheckActionCreator'
 import { toast, ToastContainer } from 'react-toastify'
+import axios from 'axios'
 
 export default function LoginPage() {
     let LoginStateData = useSelector(state => state.LoginStateData)
@@ -19,9 +20,9 @@ export default function LoginPage() {
     let [showForgotModal, setShowForgotModal] = useState(false);
     let [forgotStep, setForgotStep] = useState(1); // 1: Enter Email/Username, 2: Enter OTP & New Password
     let [forgotEmail, setForgotEmail] = useState("");
-    let [generatedOtp, setGeneratedOtp] = useState("");
     let [userOtp, setUserOtp] = useState("");
     let [newPassword, setNewPassword] = useState("");
+    let [loadingOtp, setLoadingOtp] = useState(false);
 
     useEffect(() => {
         if (LoginStateData.jwt) {
@@ -50,25 +51,32 @@ export default function LoginPage() {
         dispatch(LoginUser(data))
     }
 
-    // Handle Forgot Password OTP Generation
-    const handleSendOtp = (e) => {
+    // Call Real Backend Endpoint to Send Real Gmail OTP
+    const handleSendOtp = async (e) => {
         e.preventDefault();
         if (!forgotEmail.trim()) {
             toast.error("Please enter your registered Email or Username!");
             return;
         }
-        // Generate random 6-digit OTP
-        const otp = Math.floor(100000 + Math.random() * 900000).toString();
-        setGeneratedOtp(otp);
-        setForgotStep(2);
-        toast.info(`OTP sent to ${forgotEmail}! (Demo OTP: ${otp})`, { autoClose: 10000 });
+        setLoadingOtp(true);
+        try {
+            const serverUrl = import.meta.env.VITE_APP_SERVER || "https://e-commerce-java-springboot.onrender.com";
+            const response = await axios.post(`${serverUrl}/public/otp/send-otp`, { email: forgotEmail });
+            toast.success(response.data || "OTP Email sent to your inbox!");
+            setForgotStep(2);
+        } catch (error) {
+            const err = error.response?.data || "Failed to send OTP email!";
+            toast.error(typeof err === 'string' ? err : "Failed to send OTP!");
+        } finally {
+            setLoadingOtp(false);
+        }
     }
 
-    // Handle Reset Password with OTP
-    const handleResetPassword = (e) => {
+    // Call Real Backend Endpoint to Verify OTP and Reset Password
+    const handleResetPassword = async (e) => {
         e.preventDefault();
-        if (userOtp !== generatedOtp) {
-            toast.error("Invalid OTP! Please check and try again.");
+        if (!userOtp.trim()) {
+            toast.error("Please enter the 6-digit OTP!");
             return;
         }
         if (!newPassword || newPassword.length < 4) {
@@ -76,12 +84,27 @@ export default function LoginPage() {
             return;
         }
 
-        toast.success("Password Reset Successful! Please login with your new password.");
-        setShowForgotModal(false);
-        setForgotStep(1);
-        setForgotEmail("");
-        setUserOtp("");
-        setNewPassword("");
+        setLoadingOtp(true);
+        try {
+            const serverUrl = import.meta.env.VITE_APP_SERVER || "https://e-commerce-java-springboot.onrender.com";
+            const response = await axios.post(`${serverUrl}/public/otp/verify-reset-password`, { 
+                email: forgotEmail,
+                otp: userOtp,
+                newPassword: newPassword
+            });
+
+            toast.success(response.data || "Password Reset Successful!");
+            setShowForgotModal(false);
+            setForgotStep(1);
+            setForgotEmail("");
+            setUserOtp("");
+            setNewPassword("");
+        } catch (error) {
+            const err = error.response?.data || "Invalid OTP or request failed!";
+            toast.error(typeof err === 'string' ? err : "Invalid OTP!");
+        } finally {
+            setLoadingOtp(false);
+        }
     }
 
     return (
@@ -154,21 +177,21 @@ export default function LoginPage() {
                 </div>
             </div>
 
-            {/* Forgot Password Modal */}
+            {/* Real Gmail OTP Forgot Password Modal */}
             {showForgotModal && (
                 <div className="modal show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.6)' }} tabIndex="-1">
                     <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content shadow-lg border-0">
                             <div className="modal-header bg-dark text-white">
                                 <h5 className="modal-header-title mb-0 text-white">
-                                    <i className="bi bi-shield-lock me-2"></i>Reset Password
+                                    <i className="bi bi-shield-lock me-2"></i>Reset Password via Email OTP
                                 </h5>
                                 <button type="button" className="btn-close btn-close-white" onClick={() => setShowForgotModal(false)}></button>
                             </div>
                             <div className="modal-body p-4">
                                 {forgotStep === 1 ? (
                                     <form onSubmit={handleSendOtp}>
-                                        <p className="text-muted small mb-3">Enter your registered Email or Username to receive a verification OTP.</p>
+                                        <p className="text-muted small mb-3">Enter your registered Email or Username to receive a verification OTP in your Gmail inbox.</p>
                                         <div className="mb-3">
                                             <label className="form-label fw-semibold">Email or Username*</label>
                                             <input 
@@ -180,11 +203,13 @@ export default function LoginPage() {
                                                 required 
                                             />
                                         </div>
-                                        <button type="submit" className="btn btn-dark w-100 fw-bold">Send OTP</button>
+                                        <button type="submit" className="btn btn-dark w-100 fw-bold" disabled={loadingOtp}>
+                                            {loadingOtp ? "Sending Email..." : "Send Real OTP to Email"}
+                                        </button>
                                     </form>
                                 ) : (
                                     <form onSubmit={handleResetPassword}>
-                                        <p className="text-success small mb-3">OTP sent to <b>{forgotEmail}</b>. Please check your inbox.</p>
+                                        <p className="text-success small mb-3">OTP sent to <b>{forgotEmail}</b>. Please check your Gmail Inbox!</p>
                                         <div className="mb-3">
                                             <label className="form-label fw-semibold">Enter 6-digit OTP*</label>
                                             <input 
@@ -208,7 +233,9 @@ export default function LoginPage() {
                                                 required 
                                             />
                                         </div>
-                                        <button type="submit" className="btn btn-dark w-100 fw-bold">Update Password</button>
+                                        <button type="submit" className="btn btn-dark w-100 fw-bold" disabled={loadingOtp}>
+                                            {loadingOtp ? "Verifying..." : "Update Password & Login"}
+                                        </button>
                                     </form>
                                 )}
                             </div>
