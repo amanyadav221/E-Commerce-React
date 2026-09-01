@@ -15,6 +15,7 @@ export default function LoginPage() {
     let [errorMessage, setErrorMessage] = useState({ username: "", password: "" })
     let [data, setData] = useState({ username: "", password: "" })
     let [show, setShow] = useState(false)
+    let [isSubmitting, setIsSubmitting] = useState(false)
 
     // Forgot Password State
     let [showForgotModal, setShowForgotModal] = useState(false);
@@ -26,10 +27,14 @@ export default function LoginPage() {
 
     useEffect(() => {
         if (LoginStateData.jwt) {
+            setIsSubmitting(false);
             toast.success("Login Successful!");
             navigate("/")
         }
-    }, [LoginStateData.jwt, navigate])
+        if (LoginStateData.usernameError || LoginStateData.passwordError) {
+            setIsSubmitting(false);
+        }
+    }, [LoginStateData, navigate])
 
     function getInputData(e) {
         let { name, value } = e.target
@@ -48,6 +53,7 @@ export default function LoginPage() {
             return;
         }
 
+        setIsSubmitting(true);
         dispatch(LoginUser(data))
     }
 
@@ -159,7 +165,14 @@ export default function LoginPage() {
                             </div>
 
                             <div className="col-12 mt-4">
-                                <button type="submit" className="btn btn-dark w-100 py-2 fs-6 fw-bold shadow-sm">Login</button>
+                                <button type="submit" className="btn btn-dark w-100 py-2 fs-6 fw-bold shadow-sm" disabled={isSubmitting}>
+                                    {isSubmitting ? (
+                                        <>
+                                            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                            Logging in...
+                                        </>
+                                    ) : "Login"}
+                                </button>
                             </div>
                         </form>
 
@@ -204,7 +217,12 @@ export default function LoginPage() {
                                             />
                                         </div>
                                         <button type="submit" className="btn btn-dark w-100 fw-bold" disabled={loadingOtp}>
-                                            {loadingOtp ? "Sending Email..." : "Send Real OTP to Email"}
+                                            {loadingOtp ? (
+                                                <>
+                                                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                                    Sending Email...
+                                                </>
+                                            ) : "Send Real OTP to Email"}
                                         </button>
                                     </form>
                                 ) : (
@@ -234,7 +252,12 @@ export default function LoginPage() {
                                             />
                                         </div>
                                         <button type="submit" className="btn btn-dark w-100 fw-bold" disabled={loadingOtp}>
-                                            {loadingOtp ? "Verifying..." : "Update Password & Login"}
+                                            {loadingOtp ? (
+                                                <>
+                                                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                                    Verifying...
+                                                </>
+                                            ) : "Update Password & Login"}
                                         </button>
                                     </form>
                                 )}

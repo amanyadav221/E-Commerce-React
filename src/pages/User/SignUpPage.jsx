@@ -21,6 +21,7 @@ export default function SignUpPage() {
 
     let [errorMessage, setErrorMessage] = useState({})
     let [show, setShow] = useState(false)
+    let [isSubmitting, setIsSubmitting] = useState(false)
 
     const validateField = (name, value, allData) => {
         let err = "";
@@ -55,11 +56,12 @@ export default function SignUpPage() {
 
     useEffect(() => {
         if (message) {
+            setIsSubmitting(false);
             if (message.toLowerCase().includes("success") || message.toLowerCase().includes("registered")) {
                 toast.success("Account Created Successfully! Redirecting to Login...");
                 setTimeout(() => {
                     navigate("/login");
-                }, 1500);
+                }, 1200);
             } else {
                 toast.error(message);
             }
@@ -80,6 +82,7 @@ export default function SignUpPage() {
             return;
         }
 
+        setIsSubmitting(true);
         dispatch(registerUserNew(data));
     }
 
@@ -187,7 +190,14 @@ export default function SignUpPage() {
                                 )}
 
                                 <div className="col-12 mt-4">
-                                    <button className="btn btn-dark w-100 py-2 fs-6 fw-bold shadow-sm" type="submit">Create Account</button>
+                                    <button className="btn btn-dark w-100 py-2 fs-6 fw-bold shadow-sm" type="submit" disabled={isSubmitting}>
+                                        {isSubmitting ? (
+                                            <>
+                                                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                                Creating Account...
+                                            </>
+                                        ) : "Create Account"}
+                                    </button>
                                 </div>
 
                                 <div className="col-12 text-center mt-3">
